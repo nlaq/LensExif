@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Lens Exif
+Comment=Add exif data to photos taken with manual lenses (lens, focal length and exposure).
+Path=/home/manjaro/Documents/software/lens_exif/Package_v1.0_run/
+Exec=python /home/manjaro/Documents/software/lens_exif/Package_v1.0_run/lens_exif_view.py
+Icon=/home/manjaro/Documents/software/lens_exif/Package_v1.0_run/lens_exif.svg
+Terminal=false
+Categories=Image;Photography
+StartupWMClass=lens_exif_view.py
