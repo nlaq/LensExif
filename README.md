@@ -17,3 +17,5 @@ For now you just download the code and execute
 > python (path-to-folder)/src/lens_exif_view.py
 
 Later I will add an install file.
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](YOUR_EMAIL_CODE)
