@@ -3,11 +3,15 @@ import os
 import struct
 from PIL import Image
 from PIL import ExifTags
-from libraw.bindings import LibRaw
-from libraw import *
-from PySide2.QtWidgets import QDialog, QPushButton, QLabel, QListView, QApplication, QWidget, QHBoxLayout, QVBoxLayout, QAbstractItemView, QComboBox, QGridLayout, QFileDialog, QLineEdit
-from PySide2.QtCore import QSize
-from PySide2.QtGui import QFont, QStandardItemModel, QPixmap, QStandardItem, QIcon, Qt, QTransform
+#from libraw.bindings import LibRaw
+#from libraw import *
+import rawpy
+import imageio as iio
+
+
+from PySide6.QtWidgets import QDialog, QPushButton, QLabel, QListView, QApplication, QWidget, QHBoxLayout, QVBoxLayout, QAbstractItemView, QComboBox, QGridLayout, QFileDialog, QLineEdit
+from PySide6.QtCore import QSize
+from PySide6.QtGui import QFont, QStandardItemModel, QPixmap, QStandardItem, QIcon, Qt, QTransform
 from pyexiftool import ExifTool
 from datetime import datetime
 from lens_exif_model import marcas, f_length, marcas_modelo, lente, lens, apertures
@@ -903,13 +907,36 @@ class Interfaz(QWidget) :
 					
 							self.file_name_thumb = self.thumb_path.encode('ascii')
 							self.file_name = self.img_path.encode('ascii')
-							self.libraw  = LibRaw()
-							self.raw = self.libraw.libraw_init(0)
-							try :
-								self.libraw.libraw_open_file(self.raw, self.file_name)
-								self.libraw.libraw_unpack_thumb(self.raw)
-								self.libraw.libraw_dcraw_thumb_writer(self.raw, self.file_name_thumb)
-								self.libraw.libraw_close(self.raw)
+
+
+							try:
+								with rawpy.imread(self.img_path) as raw:
+    # raises rawpy.LibRawNoThumbnailError if thumbnail missing
+    # raises rawpy.LibRawUnsupportedThumbnailError if unsupported format
+									thumb = raw.extract_thumb()
+								if thumb.format == rawpy.ThumbFormat.JPEG:
+    # thumb.data is already in JPEG format, save as-is
+									with open(self.thumb_path, 'wb') as f:
+										f.write(thumb.data)
+								elif thumb.format == rawpy.ThumbFormat.BITMAP:
+    # thumb.data is an RGB numpy array, convert with imageio
+									#iio.imwrite('thumb.jpeg', thumb.data)
+									print ("error")
+
+
+
+#							self.libraw  = LibRaw()
+#							self.raw = self.libraw.libraw_init(0)
+#							try :
+#								self.libraw.libraw_open_file(self.raw, self.file_name)
+#								self.libraw.libraw_unpack_thumb(self.raw)
+#								self.libraw.libraw_dcraw_thumb_writer(self.raw, self.file_name_thumb)
+#								self.libraw.libraw_close(self.raw)
+
+
+
+
+
 							except :
 								pass
 
@@ -935,4 +962,3 @@ class Interfaz(QWidget) :
 # Create an instance of the application window and run it
 app = Interfaz()
 app.run()
-
