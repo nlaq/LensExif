@@ -12,7 +12,9 @@ You can save your lenses and apertures:
 
 It works on Linux, should work on windows and Mac OS X, but never tried.
 
-First install libimage-exiftool-perl pyside2-tools pyside2-tools python3-pyside2.qtwidgets
+First install: libimage-exiftool-perl pyside2-tools pyside2-tools python3-pyside2.qtwidgets
+
+From python3-pip: rawpy imgio
 
 For now you just download the code and execute 
 
